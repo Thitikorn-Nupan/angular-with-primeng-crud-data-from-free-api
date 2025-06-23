@@ -1,11 +1,8 @@
-<menubar
-  [menuItems]="menuItems">
-</menubar>
-<!-- For showing the way to use -->
 <div class="centered">
   <dynamic-tree-table
     [tableTitle]="tableTitle"
     [id]="id"
+    [loading]="loading"
     [scrollable]="scrollable"
     [paginator]="paginator"
     [rowsScope]="rowsScope"
@@ -15,19 +12,12 @@
     (editEvent)="setEditEventTreeTable($event)"
     (removeEvent)="setRemoveEventTreeTable($event)">
   </dynamic-tree-table>
-</div>
-
-<div class="centered">
   <dynamic-icon-form
-  [formGroup]="formGroup"
-  [formTitle]="formTitle"
-  [dynamicIconForms]="dynamicIconForms"
-  (getFormGroup)=" setInitialFormGroup($event)"
-  (submitEvent)=" setSubmitEventFormGroup()"
-  (clearEvent)=" setClearEventFormGroup()">
+    [formGroup]="formGroup"
+    [formTitle]="formTitle"
+    [dynamicIconForms]="dynamicIconForms"
+    (getFormGroup)=" setInitialFormGroup($event)"
+    (submitEvent)=" setSubmitEventFormGroup()"
+    (clearEvent)=" setClearEventFormGroup()">
   </dynamic-icon-form>
 </div>
-
-<!-- Your routes render here -->
-<router-outlet></router-outlet>
-
