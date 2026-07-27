@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {MenuItem, MenuItemCommandEvent, TreeNode} from "primeng/api";
 import {DataTreeTable} from "./entities/data-tree-table";
 import {HeaderColumn} from "./entities/header-column";
-import {File} from "./entities/models/file";
+import {File} from "./entities/crud/file";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DynamicIconForm, OptionDropdown} from "./entities/dynamic-icon-form";
 import {Router} from "@angular/router";
@@ -129,7 +129,6 @@ export class AppComponent {
 
   protected setSubmitEventFormGroup() {
     console.log('get submit ',this.formGroup)
-
   }
 
   protected setClearEventFormGroup() {

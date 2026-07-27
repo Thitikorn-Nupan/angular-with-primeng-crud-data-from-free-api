@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FakeApiService} from "../../service/free-api-service";
-import {Object as ObjectFreeApi} from "../../entities/models/object";
+import {Object as ObjectFreeApi} from "../../entities/crud/object";
 import {HeaderColumn} from "../../entities/header-column";
 import {DataTreeTable} from "../../entities/data-tree-table";
 import {TreeNode} from "primeng/api";
@@ -24,50 +24,50 @@ export class CrudFreeApiComponent implements OnInit, AfterViewInit, OnChanges {
   public declare scrollable: boolean
   public declare paginator: boolean
   public declare rowsScope: number
-
   // Form
   public declare formGroup: FormGroup;
   public declare formTitle: string;
   public declare dynamicIconForms: DynamicIconForm[];
 
-
   /** Manually Triggering Change Detection (Less Common): In specific scenarios where *ngIf or async pipe are not suitable, you can manually trigger change detection using ChangeDetectorRef. */
-  constructor(private fakeApiService: FakeApiService) {} //  private changeDetectorRef: ChangeDetectorRef
+  constructor(private readonly fakeApiService: FakeApiService) {} //  private changeDetectorRef: ChangeDetectorRef
 
   ngAfterViewInit(): void {
     setTimeout(() => { // have to wait data if i use data on out reloadData
-      this.setupTable();
+      if (this.objects) {
+        this.setupTable();
+      }
     }, 500)
   }
 
-  ngOnInit() {
+  ngOnInit() : void {
     this.setupForm()
     this.reloadData()
   }
 
-  ngOnChanges(changes: SimpleChanges) {}
+  ngOnChanges(changes: SimpleChanges) : void {}
 
-
-  private setupTable() {
+  private setupTable() : void {
     this.tableTitle = 'Object Table'
     this.id = 'object-tree-table'
     this.scrollable = true
     this.paginator = true
     this.rowsScope = 7
     this.loading = false
-    let objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
-    this.objects.forEach(object => {
-      objectsFormat.push({data: object, subData: null})
-    })
+    const objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
+    this.objects.forEach(object => objectsFormat.push({data: object, subData: null}))
     this.data = this.convertModelToDataTreeTable(objectsFormat)
     this.headerColumns = this.convertObjectToHeaderColumns(this.data[0].data, ["data"])
   }
 
-  private reloadData() {
-    this.fakeApiService.getObjects().subscribe((data) => (this.objects = data))
+  private reloadData() : void {
+    this.fakeApiService.getObjects().subscribe((data) => {
+      this.objects = data
+      console.log(data)
+    })
   }
 
-  private setupForm() {
+  private setupForm() : void {
     this.formGroup = new FormGroup({})
     this.formTitle = "Object Form"
     this.dynamicIconForms = [
@@ -75,21 +75,16 @@ export class CrudFreeApiComponent implements OnInit, AfterViewInit, OnChanges {
     ]
   }
 
-
-
-
-  protected setInitialData($event: DataTreeTable<any>[]) {
+  protected setInitialData($event: DataTreeTable<any>[]) : void {
     this.data = $event;
   }
 
-  protected setEditEventTreeTable($event: any) {
+  protected setEditEventTreeTable($event: any) : void  {
     const objectEdit = new ObjectFreeApi($event.id, "Edited success")
     this.fakeApiService.updateObject(objectEdit,objectEdit.id).subscribe((data: any) => {
       // just for testing api
-      let objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
-      this.objects.forEach(object => {
-        objectsFormat.push({data: object, subData: null})
-      })
+      const objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
+      this.objects.forEach(object => objectsFormat.push({data: object, subData: null}))
       data.name = objectEdit.name
       objectsFormat.push({data: data, subData: null})
       this.data = this.convertModelToDataTreeTable(objectsFormat)
@@ -99,13 +94,11 @@ export class CrudFreeApiComponent implements OnInit, AfterViewInit, OnChanges {
 
   }
 
-  protected setRemoveEventTreeTable($event: any) {
+  protected setRemoveEventTreeTable($event: any) : void   {
     this.fakeApiService.deleteObjectByID($event['id']).subscribe((data: any) => {
       // just for testing api
-      let objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
-      this.objects.forEach(object => {
-        objectsFormat.push({data: object, subData: null})
-      })
+      const objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
+      this.objects.forEach(object => objectsFormat.push({data: object, subData: null}))
       this.data = this.convertModelToDataTreeTable(objectsFormat)
     },(responseError) => {
       alert(responseError.error.error)
@@ -113,8 +106,8 @@ export class CrudFreeApiComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private convertObjectToHeaderColumns(object: any, ignoreKeys: string[]): HeaderColumn[] {
-    let headerColumns = []
-    const objectKeys = Object.keys(object)
+    const headerColumns = []
+    const objectKeys : string[] = Object.keys(object)
     for (let key of objectKeys) {
       if (ignoreKeys.indexOf(key) === -1) {
         headerColumns.push({field: key, header: key.toUpperCase()})
@@ -140,27 +133,23 @@ export class CrudFreeApiComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
 
-
-
-  protected setInitialFormGroup($event: FormGroup) {
+  protected setInitialFormGroup($event: FormGroup) : void {
     this.formGroup = $event
   }
 
-  protected setSubmitEventFormGroup() {
+  protected setSubmitEventFormGroup()  : void {
     const object = new ObjectFreeApi(0, this.formGroup.get('name')?.value)
     this.fakeApiService.createObject(object).subscribe((data: any) => {
       // just for testing api
-      let objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
-      this.objects.forEach(object => {
-        objectsFormat.push({data: object, subData: null})
-      })
+      const objectsFormat: { data: ObjectFreeApi, subData: ObjectFreeApi [] | null }[] = []
+      this.objects.forEach(object => objectsFormat.push({data: object, subData: null}))
       objectsFormat.push({data: data, subData: null})
       this.data = this.convertModelToDataTreeTable(objectsFormat)
     })
     this.setClearEventFormGroup()
   }
 
-  protected setClearEventFormGroup() {
+  protected setClearEventFormGroup() : void {
     this.formGroup.reset()
   }
 }

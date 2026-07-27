@@ -13,7 +13,7 @@ export class DynamicTreeTableComponent {
   @Input()
   public tableTitle!: string;
   // @Input()
-  // public models!: { data: any, subData: any[] | null } []
+  // public crud!: { data: any, subData: any[] | null } []
   @Input()
   public headerColumns!: HeaderColumn[]
   @Input()
@@ -42,11 +42,11 @@ export class DynamicTreeTableComponent {
 
   public reloadData(data:DataTreeTable<any>[]): void {
     this.data = data
-    console.log(this.data)
+    // console.log(this.data)
   }
   /**
-   public prepareData(models: { data: any, subData: any[] | null } []) {
-   // this.convertModelToDataTreeTable(models)
+   public prepareData(crud: { data: any, subData: any[] | null } []) {
+   // this.convertModelToDataTreeTable(crud)
    }
 
    private loadHeaderColumns(object: any): void {
@@ -58,27 +58,27 @@ export class DynamicTreeTableComponent {
    this.headerColumns.push({field: 'action', header: 'action'.toUpperCase()})
    }
 
-   private convertModelToDataTreeTable(models: { data: any, subData: any[] | null } []): void {
+   private convertModelToDataTreeTable(crud: { data: any, subData: any[] | null } []): void {
    this.data = []
    let subData: any[] = []
-   for (let i = 0; i < models.length!; i++) {
-   if (models[i].subData?.length! > 0 && models[i].subData !== null) {
-   for (let data of models[i].subData!) {
+   for (let i = 0; i < crud.length!; i++) {
+   if (crud[i].subData?.length! > 0 && crud[i].subData !== null) {
+   for (let data of crud[i].subData!) {
    // console.log(data)
    subData.push({data: data})
    }
    }
-   this.data.push({data: models[i].data, children: subData})
+   this.data.push({data: crud[i].data, children: subData})
    subData = []
    }
    }
    */
 
-  protected getEditEventTreeTable(data: any) {
+  protected getEditEventTreeTable(data: any) : void {
     this.editEvent.emit(data)
   }
 
-  protected getRemoveEventTreeTable(data: any) {
+  protected getRemoveEventTreeTable(data: any) : void {
     this.removeEvent.emit(data)
   }
 }

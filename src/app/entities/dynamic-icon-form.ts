@@ -36,7 +36,6 @@ export class DynamicIconForm {
   public isRadio? : RadioButton | null
   public isReadOnly: boolean = false
 
-
   constructor(icon: string | null,
               formControlName: string ,
               formControl : FormControl ,

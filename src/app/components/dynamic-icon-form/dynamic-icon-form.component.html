@@ -1,6 +1,5 @@
 <p-card [header]="formTitle" [formGroup]="formGroup" [style]="{'padding':'10px' , 'max-width':'800px'}">
   <div class="container">
-
     <div class="field-row">
       <ng-container *ngFor="let dynamicIconFormKeyFilter of dynamicIconForms">
         <!--
@@ -9,10 +8,8 @@
           2. input field
         -->
         <p-inputGroup>
-
           <!-- **************** icon **************** -->
           <ng-container *ngIf="dynamicIconFormKeyFilter.isIconExist !== null"> <!-- if not null -->
-
             <!-- if true case icon exist -->
             <ng-container *ngIf="dynamicIconFormKeyFilter.isIconExist">
               <p-inputGroupAddon>
@@ -26,14 +23,10 @@
                 {{ dynamicIconFormKeyFilter.icon }}
               </p-inputGroupAddon>
             </ng-container>
-
           </ng-container>
-          <!-- **************** icon **************** -->
-
 
           <!-- **************** input **************** -->
           <ng-container>
-
             <!-- normal key filter case no dropdown-->
             <ng-container *ngIf="dynamicIconFormKeyFilter.isInputText && dynamicIconFormKeyFilter.pKeyFilter !== undefined && dynamicIconFormKeyFilter.isTextarea === null && dynamicIconFormKeyFilter.isDropdown === null  && dynamicIconFormKeyFilter.isCheckbox === null && dynamicIconFormKeyFilter.isRadio === null">
               <input
@@ -93,13 +86,10 @@
             </ng-container>
 
           </ng-container>
-          <!-- **************** input **************** -->
-
         </p-inputGroup>
 
       </ng-container>
     </div>
-
 
     <p-inputGroup>
       <button
@@ -117,6 +107,5 @@
         (click)="getClearEventFormGroup()">
       </button>
     </p-inputGroup>
-
   </div>
 </p-card>

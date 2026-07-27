@@ -1,4 +1,4 @@
-import {Component ,Input, OnInit} from '@angular/core';
+import {Component ,Input} from '@angular/core';
 import {MenuItem} from "primeng/api";
 
 @Component({
@@ -6,14 +6,7 @@ import {MenuItem} from "primeng/api";
   templateUrl: './menubar.component.html',
   styleUrl: './menubar.component.css'
 })
-export class MenubarComponent implements OnInit {
-
+export class MenubarComponent  {
   @Input()
   public menuItems : MenuItem[] | undefined;
-
-  ngOnInit() {
-
-  }
-
-
 }

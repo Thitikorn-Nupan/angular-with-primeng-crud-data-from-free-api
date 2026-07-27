@@ -31,11 +31,11 @@ export class DynamicIconFormComponent implements OnInit {
     this.getFormGroup.emit(this.formGroup);
   }
 
-  protected getSubmitEventFormGroup() {
+  protected getSubmitEventFormGroup() : void {
     this.submitEvent?.emit();
   }
 
-  protected getClearEventFormGroup() {
+  protected getClearEventFormGroup() : void  {
     this.clearEvent?.emit();
   }
 }
